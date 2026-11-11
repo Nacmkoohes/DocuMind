@@ -139,3 +139,13 @@ SPECTACULAR_SETTINGS = {
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+# Embedding Configuration
+EMBEDDING_BACKEND = "fastembed"
+EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 150
+
+RETRIEVAL_TOP_K = 5
+RETRIEVAL_CANDIDATES = 20

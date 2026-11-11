@@ -1,0 +1,12 @@
+Django>=5.2,<5.3
+djangorestframework>=3.15
+drf-spectacular>=0.27
+gunicorn>=22.0
+whitenoise>=6.6
+python-docx>=1.1
+numpy>=1.26
+rank-bm25>=0.2.2
+fastembed>=0.4
+langchain-core>=0.3
+langchain-openai>=0.2
+langchain-text-splitters>=0.3
