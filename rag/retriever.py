@@ -33,9 +33,9 @@ def retrieve(queries, top_k=None, document_ids=None)->list[Hit]:
     top_k=top_k or settings.RETRIEVAL_TOP_K
     candidates=settings.RETRIEVAL_CANDIDATES
 
-    qs=Chunk.objects.select_related("documents").order_by("id")
+    qs=Chunk.objects.select_related("document").order_by("id")
     if document_ids:
-        qs=qs.filter(document_ids__in=document_ids)
+        qs=qs.filter(document_id__in=document_ids)
     chunks=list(qs)
     if not chunks:
         return []
