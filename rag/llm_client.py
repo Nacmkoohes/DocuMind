@@ -1,9 +1,14 @@
 
+import logging
+
 from django.conf import settings
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
 from .exceptions import LLMNotConfigured, LLMError
+
+
+logger = logging.getLogger(__name__)
 
 
 class LLMClient:
@@ -35,9 +40,8 @@ class LLMClient:
             return response.content
 
         except Exception as exc:
-            raise LLMError(
-                f"LLM request failed: {exc}"
-            ) from exc
+            logger.exception("LLM generation failed")
+            raise LLMError("LLM request failed.") from exc
 
     def generate_with_prompt(self, prompt, inputs):
         try:
@@ -45,6 +49,5 @@ class LLMClient:
             return chain.invoke(inputs)
 
         except Exception as exc:
-            raise LLMError(
-                f"LLM request failed: {exc}"
-            ) from exc
+            logger.exception("LLM generation with prompt failed")
+            raise LLMError("LLM request failed.") from exc

@@ -1,7 +1,6 @@
 
 import re
 
-# map each char to its normalized
 _CHAR_MAP = str.maketrans({
     "ي": "ی",
     "ى": "ی",
@@ -11,25 +10,30 @@ _CHAR_MAP = str.maketrans({
     "أ": "ا",
     "إ": "ا",
     "ٱ": "ا",
-    #normalize numbers ex: ۱۲۳-> 123
-    #persian
     **{chr(0x06F0 + i): str(i) for i in range(10)},
-    #arabic
     **{chr(0x0660 + i): str(i) for i in range(10)},
-
-    #Zero Width Non-Joiner
     "\u200c": " ",
 })
-#pattern of arabic vowels
-_DIACRITICS = re.compile(r"[\u064B-\u065F\u0670]")
 
-#pattern that finds words
+_DIACRITICS = re.compile(r"[\u064B-\u065F\u0670]")
 _TOKEN = re.compile(r"\w+", re.UNICODE)
 
+STOPWORDS = {
+    "a", "an", "the", "and", "or", "but",
+    "is", "are", "was", "were", "be", "been",
+    "being", "do", "does", "did",
+    "what", "which", "who", "when", "where",
+    "why", "how", "to", "of", "in", "on",
+    "at", "for", "from", "with", "by", "as",
+    "it", "this", "that", "these", "those",
+    "can", "could", "would", "should",
+    "used", "use", "commonly",
+}
 
 def normalize(text: str) -> str:
     return _DIACRITICS.sub("", text.translate(_CHAR_MAP))
 
 
 def tokenize(text: str) -> list[str]:
-    return _TOKEN.findall(normalize(text).lower())
+    tokens = _TOKEN.findall(normalize(text).lower())
+    return [token for token in tokens if token not in STOPWORDS]
